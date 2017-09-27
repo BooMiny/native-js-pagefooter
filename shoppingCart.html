@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        thead {
+            background: #3d444c;
+            color: #ffffff;
+        }
+
+        td,
+        th {
+            border: 1px solid #e1e1e1;
+            padding: 0;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table id="jsTrolley">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>产品1</td>
+                <td>10.00</td>
+                <td><a href="javascript:void(0);">删除</a></td>
+            </tr>
+            <tr>
+                <td>产品2</td>
+                <td>30.20</td>
+                <td><a href="javascript:void(0);">删除</a></td>
+            </tr>
+            <tr>
+                <td>产品3</td>
+                <td>20.50</td>
+                <td><a href="javascript:void(0);">删除</a></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>总计</th>
+                <td colspan="2">60.70(3件商品)</td>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+    	let items = [{name:'产品4',price:17.89},{name:'产品5',price:21.36}];
+    	
+    	function add(items){
+    		let tbody = document.getElementById('jsTrolley').getElementsByTagName('tbody')[0];
+    		(items || []).forEach(function (item){
+    			let tr = document.createElement('tr');
+    			tr.innerHTML = '<td>' + item.name+'</td><td>'+item.price.toFixed(2)+'</td><td><a href="javascript:void(0);">删除</a></td>';
+    			tbody.appendChild(tr);
+    			update();
+    		});
+    	}
+    	
+    	function bind(){
+    		let table = document.getElementById('jsTrolley');
+    		table.addEventListener('click',function(event){
+    			let el = event.target;
+    			if(el.tagName.toLowerCase() === 'a'){
+    				tr = el.parentNode.parentNode;
+    				tr.parentNode.removeChild(tr);
+    				update();
+    			}
+    		});
+    	}
+    	
+    	function update(){
+    		let table = document.getElementById('jsTrolley');
+    		let tbody = table.getElementsByTagName('tbody')[0];
+    		let tfoot = table.getElementsByTagName('tfoot')[0];
+    		let tr = [].slice.call(tbody.getElementsByTagName('tr'),0);
+    		let total = 0;
+    		tr.forEach(function (tr){
+    			total += +(tr.getElementsByTagName('td')[1].innerHTML.trim());
+    		});
+    		tfoot.getElementsByTagName('td')[0].innerHTML = total.toFixed(2)+'('+tr.length+'件商品)';
+    	}
+    	
+    	add(items);
+    	bind();
+    </script>
+</body>
+
+</html>
