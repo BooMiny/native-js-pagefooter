@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.hide{
+    display: none!important;
+}
+.pagination{
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+.pagination li{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    line-height: 30px;
+    margin: 0 5px 0 0;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #00bc9b;
+    color: #00bc9b;
+    cursor: pointer;
+}
+.pagination li.current,
+.pagination li:hover{
+    background: #00bc9b;
+    color: #ffffff;
+}
+.demo {
+    margin: 10px 0;
+    padding: 10px;
+    background: #eeeeee;
+    text-align: center;
+}
+		</style>
+	</head>
+	<body>
+	<ul class="pagination" id="jsPagination">
+    <li>首页</li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li>末页</li>
+</ul>
+
+<div class="demo">
+    <div>(Demo1) total: 10，current: 4</div>
+    <ul class="pagination">
+        <li>首页</li>
+        <li>2</li>
+        <li>3</li>
+        <li class="current">4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>末页</li>
+    </ul>
+</div>
+
+<div class="demo">
+    <div>(Demo2) total: 0，current: 0</div>
+    <ul class="pagination hide">
+        <li>首页</li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li>末页</li>
+    </ul>
+</div>
+
+<div class="demo">
+    <div>(Demo3) total: 3，current: 2</div>
+    <ul class="pagination">
+        <li class="hide">首页</li>
+        <li>1</li>
+        <li class="current">2</li>
+        <li>3</li>
+        <li class="hide"></li>
+        <li class="hide"></li>
+        <li class="hide">末页</li>
+    </ul>
+</div>
+
+<div class="demo">
+    <div>(Demo4) total: 10，current: 2</div>
+    <ul class="pagination">
+        <li class="hide">首页</li>
+        <li>1</li>
+        <li class="current">2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>末页</li>
+    </ul>
+</div>
+
+<div class="demo">
+    <div>(Demo5) total: 10，current: 9</div>
+    <ul class="pagination">
+        <li>首页</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li class="current">9</li>
+        <li>10</li>
+        <li class="hide">末页</li>
+    </ul>
+</div>
+		<script>
+			//var total = 0;
+			function pagination(total, current) {
+			    var cur = document.getElementById("jsPagination");
+			    var cNodes = cur.getElementsByTagName("li");
+			    if(total==0){
+			    	cur.style.display = "none";
+			    }
+			    if(total<5){
+			    	cNodes[0].style.display="none";
+			    	cNodes[6].style.display="none";
+			    	var j = 1;
+			    	for(var i=1;i<=total;i++){
+			    		cNodes[j++].innerHTML = i;
+			    	}
+			    	for(var m=1;m<=(5-total);m++){
+			    		cNodes[total].parentNode.removeChild(cNodes[total+1]);
+			    	}
+			    	cNodes[current].setAttribute("class","current");
+			    }
+			    if(total>5){
+			    	if(current<=2){
+			    		cNodes[0].style.display = "none";
+			    		for(var i=1;i<=5;i++){
+			    			cNodes[i].innerHTML=i;
+			    			if(i==current){
+			    			cNodes[i].setAttribute("class","current");
+			    		    }
+			    		}
+
+			    	}else if((total-current)<=2){
+			    		cNodes[6].style.display="none";
+			    		var tem = total-4;
+			    		for(var i=1;i<=5;i++){
+			    			cNodes[i].innerHTML = tem;
+			    			if(tem==current){
+			    			cNodes[i].setAttribute("class","current");
+			    		    }
+			    			tem++;
+			    		}
+			    	}else{
+			    		var j = 1;
+				    	for(var i=current-2;i<=current+2;i++){
+				    		cNodes[j++].innerHTML = i;
+				    		if(i==current){
+				    			cNodes[j-1].setAttribute("class","current");
+				    		}
+				    	}
+			    	}
+			    	
+			    }
+
+			    
+			}
+			pagination(10,9); 
+		</script>
+	</body>
+</html>
